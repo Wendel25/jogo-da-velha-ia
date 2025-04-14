@@ -1,4 +1,5 @@
 import axios from "axios";
+import { routerBackend } from "../consts/router-backend";
 
 interface ReturnPlay {
     board?: (string | null)[];
@@ -6,6 +7,6 @@ interface ReturnPlay {
 }
 
 export const handleClickService = async (posicao: number): Promise<ReturnPlay> => {
-    const response = await axios.post("http://localhost:3000/play", { posicao });
+    const response = await axios.post(`${routerBackend}/play`, { posicao });
     return response.data;
 };
