@@ -6,7 +6,7 @@ interface ScoreBoardProps {
 
 export default function ScoreBoard({ scores }: ScoreBoardProps) {
   return (
-    <div className="flex justify-between mb-6">
+    <div className="flex justify-between mb-6 gap-4">
       <div className="bg-white p-3 rounded-xl shadow-md w-28 text-center">
         <div className="flex items-center justify-center gap-1 font-bold text-blue-500 mb-1">
           <X size={16} />
@@ -23,7 +23,7 @@ export default function ScoreBoard({ scores }: ScoreBoardProps) {
       <div className="bg-white p-3 rounded-xl shadow-md w-28 text-center">
         <div className="flex items-center justify-center gap-1 font-bold text-green-500 mb-1">
           <Circle size={16} />
-          <span>Player</span>
+          <span>MinMax</span>
         </div>
         <div className="text-3xl font-bold text-green-600">{scores.o}</div>
       </div>

@@ -17,8 +17,11 @@ export class PlayController {
   }
 
   @Post('new-game')
-  async resetGame(): Promise<{ message: string }> {
-    this.playService.resetGame();
-    return { message: 'Board reset!' };
+  async resetGame(): Promise<{ board: (string | null)[]; starter: string }> {
+    const { board, starter } = this.playService.resetGame();
+    return {
+      board,
+      starter,
+    };
   }
 }

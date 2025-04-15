@@ -46,24 +46,33 @@ export default function App() {
   };
 
   useEffect(() => {
-    newGame();
+    handleResetGame();
   }, []);
 
+  const handleResetGame = async () => {
+    try {
+      const response = await newGame();
+
+      setSquares(response.board);
+      setGameOver(false);
+      setWinningLine(null);
+      setXIsNext(response.starter === "X");
+    } catch (err) {
+      console.error("Erro ao resetar o jogo:", err);
+    }
+  };
+
   const resetGame = () => {
-    setSquares(Array(9).fill(null));
-    setXIsNext(true);
-    setGameOver(false);
-    setWinningLine(null);
-    newGame();
+    handleResetGame();
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-400 px-4 sm:px-6">
-      <div className="w-full max-w-sm sm:max-w-md">
+      <div className="w-full max-w-sm sm:w-1/2">
         <div className="bg-gray-100 p-4 sm:p-6 rounded-2xl shadow-xl mb-6">
           <ScoreBoard scores={scores} />
           <div className="mb-6 text-center">
-            <Status squares={squares} xIsNext={xIsNext} calculateWinner={calculateWinner} />
+            <Status squares={squares} calculateWinner={calculateWinner} />
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-6">
             {squares.map((val, i) => (

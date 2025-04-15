@@ -13,7 +13,9 @@ export class IAService {
         const winner = this.checkWin(board);
 
         if (winner === 'X') return { score: -1, index: -1 };
+
         if (winner === 'O') return { score: 1, index: -1 };
+
         if (availableMoves.length === 0) return { score: 0, index: -1 };
 
         const moves = availableMoves.map(index => {
@@ -35,10 +37,17 @@ export class IAService {
     }
 
     private getAvailableMoves(board: Board): number[] {
-        return board.reduce(
+        const available = board.reduce(
             (acc, val, idx) => (val === null ? [...acc, idx] : acc),
             [] as number[]
         );
+
+        for (let i = available.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [available[i], available[j]] = [available[j], available[i]];
+        }
+
+        return available;
     }
 
     checkWin(board: Board): Player | null {
@@ -55,5 +64,22 @@ export class IAService {
         }
 
         return null;
+    }
+
+    public chooseAiMoveWithDifficulty(board: Board, difficulty: 'easy' | 'medium' | 'hard'): number {
+        const availableMoves = this.getAvailableMoves(board);
+
+        if (difficulty === 'easy') {
+            return availableMoves[Math.floor(Math.random() * availableMoves.length)];
+        }
+
+        if (difficulty === 'medium') {
+            const useMinimax = Math.random() < 0.5;
+            return useMinimax
+                ? this.minimax(board, 'O').index
+                : availableMoves[Math.floor(Math.random() * availableMoves.length)];
+        }
+
+        return this.minimax(board, 'O').index;
     }
 }
